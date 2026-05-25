@@ -160,19 +160,21 @@ struct ConsumerAppShell: View {
 
     private var header: some View {
         HStack(spacing: SWARPSpacing.md) {
-            VStack(alignment: .leading, spacing: 3) {
-                Text(appState.selectedTab.headerTitle)
-                    .font(.headline.bold())
-                    .foregroundStyle(SWARPColor.cream)
-                    .lineLimit(1)
-                Text(appState.selectedTab.headerSubtitle)
-                    .font(.caption)
-                    .foregroundStyle(SWARPColor.coolGray)
-                    .lineLimit(1)
+            if appState.selectedTab != .home {
+                VStack(alignment: .leading, spacing: 3) {
+                    Text(appState.selectedTab.headerTitle)
+                        .font(.headline.bold())
+                        .foregroundStyle(SWARPColor.cream)
+                        .lineLimit(1)
+                    Text(appState.selectedTab.headerSubtitle)
+                        .font(.caption)
+                        .foregroundStyle(SWARPColor.coolGray)
+                        .lineLimit(1)
+                }
             }
             Spacer()
             IconCircleButton(symbolName: "bell", accessibilityLabel: "Notifications")
-            ProfileLogoButton(isSelected: appState.selectedTab == .profile) {
+            ProfileAvatarButton(isSelected: appState.selectedTab == .profile) {
                 withAnimation(SWARPMotion.smooth) {
                     appState.selectedTab = .profile
                 }
@@ -200,7 +202,7 @@ struct ConsumerAppShell: View {
     }
 }
 
-private struct ProfileLogoButton: View {
+private struct ProfileAvatarButton: View {
     let isSelected: Bool
     let action: () -> Void
 
@@ -209,8 +211,11 @@ private struct ProfileLogoButton: View {
             Haptics.lightImpact()
             action()
         } label: {
-            LogoMark(size: 38, glow: isSelected, accessibilityLabel: "Profile")
-                .padding(3)
+            Image("EddineProfile")
+                .resizable()
+                .scaledToFill()
+                .frame(width: 38, height: 38)
+                .clipShape(Circle())
                 .background(
                     Circle()
                         .fill(isSelected ? SWARPColor.signal.opacity(0.12) : .white.opacity(0.06))
@@ -219,6 +224,7 @@ private struct ProfileLogoButton: View {
                     Circle()
                         .stroke(isSelected ? SWARPColor.signal.opacity(0.38) : .white.opacity(0.10), lineWidth: 1)
                 )
+                .shadow(color: isSelected ? SWARPColor.signal.opacity(0.24) : .black.opacity(0.18), radius: 14, x: 0, y: 8)
         }
         .buttonStyle(PressableScale())
         .accessibilityLabel("Profile")
