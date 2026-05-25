@@ -159,13 +159,24 @@ struct ConsumerAppShell: View {
     }
 
     private var header: some View {
-        HStack {
-            SwarpWordmark()
-            Spacer()
-            if appState.selectedTab == .catalog {
-                IconCircleButton(symbolName: "magnifyingglass")
+        HStack(spacing: SWARPSpacing.md) {
+            VStack(alignment: .leading, spacing: 3) {
+                Text(appState.selectedTab.headerTitle)
+                    .font(.headline.bold())
+                    .foregroundStyle(SWARPColor.cream)
+                    .lineLimit(1)
+                Text(appState.selectedTab.headerSubtitle)
+                    .font(.caption)
+                    .foregroundStyle(SWARPColor.coolGray)
+                    .lineLimit(1)
             }
-            IconCircleButton(symbolName: "bell")
+            Spacer()
+            IconCircleButton(symbolName: "bell", accessibilityLabel: "Notifications")
+            ProfileLogoButton(isSelected: appState.selectedTab == .profile) {
+                withAnimation(SWARPMotion.smooth) {
+                    appState.selectedTab = .profile
+                }
+            }
         }
         .padding(.horizontal, SWARPSpacing.md)
         .padding(.top, 12)
@@ -185,6 +196,53 @@ struct ConsumerAppShell: View {
             SupportView(reference: nil)
         case .profile:
             ProfileView()
+        }
+    }
+}
+
+private struct ProfileLogoButton: View {
+    let isSelected: Bool
+    let action: () -> Void
+
+    var body: some View {
+        Button {
+            Haptics.lightImpact()
+            action()
+        } label: {
+            LogoMark(size: 38, glow: isSelected, accessibilityLabel: "Profile")
+                .padding(3)
+                .background(
+                    Circle()
+                        .fill(isSelected ? SWARPColor.signal.opacity(0.12) : .white.opacity(0.06))
+                )
+                .overlay(
+                    Circle()
+                        .stroke(isSelected ? SWARPColor.signal.opacity(0.38) : .white.opacity(0.10), lineWidth: 1)
+                )
+        }
+        .buttonStyle(PressableScale())
+        .accessibilityLabel("Profile")
+    }
+}
+
+private extension AppTab {
+    var headerTitle: String {
+        switch self {
+        case .home: "Manage vouchers"
+        case .catalog: "Browse catalog"
+        case .vouchers: "Your vouchers"
+        case .support: "Support"
+        case .profile: "Profile"
+        }
+    }
+
+    var headerSubtitle: String {
+        switch self {
+        case .home: "Claim, track, and redeem"
+        case .catalog: "Find brands and categories"
+        case .vouchers: "Active codes and receipts"
+        case .support: "Help with orders and claims"
+        case .profile: "Account and preferences"
         }
     }
 }

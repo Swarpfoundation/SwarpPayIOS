@@ -90,15 +90,30 @@ private struct DashboardGreeting: View {
     let name: String
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 6) {
-            Text("Good evening, \(name)")
-                .font(.title2.bold())
-                .foregroundStyle(SWARPColor.cream)
-            Text("Manage demo vouchers, claims, and receipts from one place.")
-                .font(.subheadline)
-                .foregroundStyle(SWARPColor.coolGray)
+        TimelineView(.periodic(from: Date(), by: 60)) { context in
+            VStack(alignment: .leading, spacing: 6) {
+                Text("\(greeting(for: context.date)), \(name)")
+                    .font(.title2.bold())
+                    .foregroundStyle(SWARPColor.cream)
+                Text("Manage vouchers, claims, and receipts from one place.")
+                    .font(.subheadline)
+                    .foregroundStyle(SWARPColor.coolGray)
+            }
+            .accessibilityElement(children: .combine)
         }
-        .accessibilityElement(children: .combine)
+    }
+
+    private func greeting(for date: Date) -> String {
+        let hour = Calendar.current.component(.hour, from: date)
+
+        switch hour {
+        case 5..<12:
+            return "Good morning"
+        case 12..<18:
+            return "Good afternoon"
+        default:
+            return "Good evening"
+        }
     }
 }
 
@@ -146,7 +161,7 @@ private struct WalletHeroCard: View {
                             .font(.largeTitle.bold())
                             .foregroundStyle(SWARPColor.cream)
                             .contentTransition(.numericText())
-                        Text("\(activeCount) active voucher\(activeCount == 1 ? "" : "s") ready in demo mode")
+                        Text("\(activeCount) active voucher\(activeCount == 1 ? "" : "s") ready to use")
                             .font(.subheadline)
                             .foregroundStyle(SWARPColor.coolGray)
                     }

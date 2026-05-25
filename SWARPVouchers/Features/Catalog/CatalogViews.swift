@@ -118,7 +118,7 @@ private struct CatalogHeader: View {
                 Text("Catalog")
                     .font(.title.bold())
                     .foregroundStyle(SWARPColor.cream)
-                Text("Frontend preview of digital voucher inventory.")
+                Text("Digital voucher inventory.")
                     .font(.subheadline)
                     .foregroundStyle(SWARPColor.coolGray)
             }

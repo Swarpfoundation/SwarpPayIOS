@@ -12,10 +12,14 @@ enum AppTab: String, CaseIterable, Hashable {
         switch self {
         case .home: "Home"
         case .catalog: "Catalog"
-        case .vouchers: "My Vouchers"
+        case .vouchers: "Vouchers"
         case .support: "Support"
         case .profile: "Profile"
         }
+    }
+
+    static var primaryTabs: [AppTab] {
+        [.home, .catalog, .vouchers, .support]
     }
 
     var symbolName: String {
@@ -46,6 +50,7 @@ enum Haptics {
 struct LogoMark: View {
     var size: CGFloat = 64
     var glow = false
+    var accessibilityLabel = "Swarp logo"
 
     var body: some View {
         Image("AppLogo")
@@ -53,7 +58,7 @@ struct LogoMark: View {
             .scaledToFit()
             .frame(width: size, height: size)
             .shadow(color: glow ? SWARPColor.signal.opacity(0.40) : .clear, radius: glow ? 26 : 0, x: 0, y: 0)
-            .accessibilityLabel("SwarpPay")
+            .accessibilityLabel(accessibilityLabel)
     }
 }
 
@@ -839,7 +844,7 @@ struct BottomTabBar: View {
 
     var body: some View {
         HStack(spacing: 4) {
-            ForEach(AppTab.allCases, id: \.self) { tab in
+            ForEach(AppTab.primaryTabs, id: \.self) { tab in
                 Button {
                     guard selectedTab != tab else { return }
                     Haptics.selection()
