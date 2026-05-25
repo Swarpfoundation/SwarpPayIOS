@@ -160,6 +160,11 @@ struct ConsumerAppShell: View {
 
     private var header: some View {
         HStack(spacing: SWARPSpacing.md) {
+            ProfileAvatarButton(isSelected: appState.selectedTab == .profile) {
+                withAnimation(SWARPMotion.smooth) {
+                    appState.selectedTab = .profile
+                }
+            }
             if appState.selectedTab != .home {
                 VStack(alignment: .leading, spacing: 3) {
                     Text(appState.selectedTab.headerTitle)
@@ -174,11 +179,6 @@ struct ConsumerAppShell: View {
             }
             Spacer()
             IconCircleButton(symbolName: "bell", accessibilityLabel: "Notifications")
-            ProfileAvatarButton(isSelected: appState.selectedTab == .profile) {
-                withAnimation(SWARPMotion.smooth) {
-                    appState.selectedTab = .profile
-                }
-            }
         }
         .padding(.horizontal, SWARPSpacing.md)
         .padding(.top, 12)
