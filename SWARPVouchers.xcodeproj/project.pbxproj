@@ -1,0 +1,409 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		B00000000000000000000001 /* SWARPVouchersApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00000000000000000000001 /* SWARPVouchersApp.swift */; };
+		B00000000000000000000002 /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00000000000000000000002 /* RootView.swift */; };
+		B00000000000000000000003 /* DeepLinkRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00000000000000000000003 /* DeepLinkRouter.swift */; };
+		B00000000000000000000004 /* SecureSessionStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00000000000000000000004 /* SecureSessionStore.swift */; };
+		B00000000000000000000005 /* EnvironmentConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00000000000000000000005 /* EnvironmentConfig.swift */; };
+		B00000000000000000000006 /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00000000000000000000006 /* AppState.swift */; };
+		B00000000000000000000007 /* DemoAPIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00000000000000000000007 /* DemoAPIClient.swift */; };
+		B00000000000000000000008 /* SWARPDesignSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00000000000000000000008 /* SWARPDesignSystem.swift */; };
+		B00000000000000000000009 /* SWARPComponents.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00000000000000000000009 /* SWARPComponents.swift */; };
+		B00000000000000000000010 /* APIModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00000000000000000000010 /* APIModels.swift */; };
+		B00000000000000000000011 /* APIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00000000000000000000011 /* APIClient.swift */; };
+		B00000000000000000000012 /* ClaimPreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00000000000000000000012 /* ClaimPreviewView.swift */; };
+		B00000000000000000000013 /* OrderStatusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00000000000000000000013 /* OrderStatusView.swift */; };
+		B00000000000000000000014 /* SupportView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00000000000000000000014 /* SupportView.swift */; };
+		B00000000000000000000015 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00000000000000000000015 /* ProfileView.swift */; };
+		B00000000000000000000016 /* PaymentWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00000000000000000000016 /* PaymentWidget.swift */; };
+		B00000000000000000000017 /* ProductDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00000000000000000000017 /* ProductDetailView.swift */; };
+		B00000000000000000000018 /* CatalogViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00000000000000000000018 /* CatalogViews.swift */; };
+		B00000000000000000000019 /* SplashOnboardingViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00000000000000000000019 /* SplashOnboardingViews.swift */; };
+		B00000000000000000000020 /* KYCStatusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00000000000000000000020 /* KYCStatusView.swift */; };
+		B00000000000000000000021 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00000000000000000000021 /* HomeView.swift */; };
+		B00000000000000000000022 /* ReceiptDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00000000000000000000022 /* ReceiptDetailView.swift */; };
+		B00000000000000000000023 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F00000000000000000000023 /* Assets.xcassets */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		100000000000000000000001 /* SWARPVouchers.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SWARPVouchers.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		F00000000000000000000001 /* SWARPVouchersApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = App/SWARPVouchersApp.swift; sourceTree = "<group>"; };
+		F00000000000000000000002 /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = App/RootView.swift; sourceTree = "<group>"; };
+		F00000000000000000000003 /* DeepLinkRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Core/DeepLinkRouter.swift; sourceTree = "<group>"; };
+		F00000000000000000000004 /* SecureSessionStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Core/SecureSessionStore.swift; sourceTree = "<group>"; };
+		F00000000000000000000005 /* EnvironmentConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Core/EnvironmentConfig.swift; sourceTree = "<group>"; };
+		F00000000000000000000006 /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Core/AppState.swift; sourceTree = "<group>"; };
+		F00000000000000000000007 /* DemoAPIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Demo/DemoAPIClient.swift; sourceTree = "<group>"; };
+		F00000000000000000000008 /* SWARPDesignSystem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DesignSystem/SWARPDesignSystem.swift; sourceTree = "<group>"; };
+		F00000000000000000000009 /* SWARPComponents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DesignSystem/SWARPComponents.swift; sourceTree = "<group>"; };
+		F00000000000000000000010 /* APIModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Networking/APIModels.swift; sourceTree = "<group>"; };
+		F00000000000000000000011 /* APIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Networking/APIClient.swift; sourceTree = "<group>"; };
+		F00000000000000000000012 /* ClaimPreviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Features/Claim/ClaimPreviewView.swift; sourceTree = "<group>"; };
+		F00000000000000000000013 /* OrderStatusView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Features/Orders/OrderStatusView.swift; sourceTree = "<group>"; };
+		F00000000000000000000014 /* SupportView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Features/Support/SupportView.swift; sourceTree = "<group>"; };
+		F00000000000000000000015 /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Features/Profile/ProfileView.swift; sourceTree = "<group>"; };
+		F00000000000000000000016 /* PaymentWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Features/Checkout/PaymentWidget.swift; sourceTree = "<group>"; };
+		F00000000000000000000017 /* ProductDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Features/Product/ProductDetailView.swift; sourceTree = "<group>"; };
+		F00000000000000000000018 /* CatalogViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Features/Catalog/CatalogViews.swift; sourceTree = "<group>"; };
+		F00000000000000000000019 /* SplashOnboardingViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Features/Auth/SplashOnboardingViews.swift; sourceTree = "<group>"; };
+		F00000000000000000000020 /* KYCStatusView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Features/KYC/KYCStatusView.swift; sourceTree = "<group>"; };
+		F00000000000000000000021 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Features/Home/HomeView.swift; sourceTree = "<group>"; };
+		F00000000000000000000022 /* ReceiptDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Features/Receipts/ReceiptDetailView.swift; sourceTree = "<group>"; };
+		F00000000000000000000023 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		F00000000000000000000024 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		120000000000000000000001 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		130000000000000000000001 = {
+			isa = PBXGroup;
+			children = (
+				130000000000000000000003 /* SWARPVouchers */,
+				130000000000000000000002 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		130000000000000000000002 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				100000000000000000000001 /* SWARPVouchers.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		130000000000000000000003 /* SWARPVouchers */ = {
+			isa = PBXGroup;
+			children = (
+				F00000000000000000000001 /* SWARPVouchersApp.swift */,
+				F00000000000000000000002 /* RootView.swift */,
+				F00000000000000000000003 /* DeepLinkRouter.swift */,
+				F00000000000000000000004 /* SecureSessionStore.swift */,
+				F00000000000000000000005 /* EnvironmentConfig.swift */,
+				F00000000000000000000006 /* AppState.swift */,
+				F00000000000000000000007 /* DemoAPIClient.swift */,
+				F00000000000000000000008 /* SWARPDesignSystem.swift */,
+				F00000000000000000000009 /* SWARPComponents.swift */,
+				F00000000000000000000010 /* APIModels.swift */,
+				F00000000000000000000011 /* APIClient.swift */,
+				F00000000000000000000012 /* ClaimPreviewView.swift */,
+				F00000000000000000000013 /* OrderStatusView.swift */,
+				F00000000000000000000014 /* SupportView.swift */,
+				F00000000000000000000015 /* ProfileView.swift */,
+				F00000000000000000000016 /* PaymentWidget.swift */,
+				F00000000000000000000017 /* ProductDetailView.swift */,
+				F00000000000000000000018 /* CatalogViews.swift */,
+				F00000000000000000000019 /* SplashOnboardingViews.swift */,
+				F00000000000000000000020 /* KYCStatusView.swift */,
+				F00000000000000000000021 /* HomeView.swift */,
+				F00000000000000000000022 /* ReceiptDetailView.swift */,
+				F00000000000000000000023 /* Assets.xcassets */,
+				F00000000000000000000024 /* Info.plist */,
+			);
+			path = SWARPVouchers;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		140000000000000000000001 /* SWARPVouchers */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 170000000000000000000003 /* Build configuration list for PBXNativeTarget "SWARPVouchers" */;
+			buildPhases = (
+				150000000000000000000001 /* Sources */,
+				120000000000000000000001 /* Frameworks */,
+				160000000000000000000001 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = SWARPVouchers;
+			packageProductDependencies = (
+			);
+			productName = SWARPVouchers;
+			productReference = 100000000000000000000001 /* SWARPVouchers.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		180000000000000000000001 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 2641;
+				LastUpgradeCheck = 2641;
+				TargetAttributes = {
+					140000000000000000000001 = {
+						CreatedOnToolsVersion = 26.4.1;
+					};
+				};
+			};
+			buildConfigurationList = 170000000000000000000001 /* Build configuration list for PBXProject "SWARPVouchers" */;
+			compatibilityVersion = "Xcode 16.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 130000000000000000000001;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			productRefGroup = 130000000000000000000002 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				140000000000000000000001 /* SWARPVouchers */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		160000000000000000000001 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B00000000000000000000023 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		150000000000000000000001 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B00000000000000000000001 /* SWARPVouchersApp.swift in Sources */,
+				B00000000000000000000002 /* RootView.swift in Sources */,
+				B00000000000000000000003 /* DeepLinkRouter.swift in Sources */,
+				B00000000000000000000004 /* SecureSessionStore.swift in Sources */,
+				B00000000000000000000005 /* EnvironmentConfig.swift in Sources */,
+				B00000000000000000000006 /* AppState.swift in Sources */,
+				B00000000000000000000007 /* DemoAPIClient.swift in Sources */,
+				B00000000000000000000008 /* SWARPDesignSystem.swift in Sources */,
+				B00000000000000000000009 /* SWARPComponents.swift in Sources */,
+				B00000000000000000000010 /* APIModels.swift in Sources */,
+				B00000000000000000000011 /* APIClient.swift in Sources */,
+				B00000000000000000000012 /* ClaimPreviewView.swift in Sources */,
+				B00000000000000000000013 /* OrderStatusView.swift in Sources */,
+				B00000000000000000000014 /* SupportView.swift in Sources */,
+				B00000000000000000000015 /* ProfileView.swift in Sources */,
+				B00000000000000000000016 /* PaymentWidget.swift in Sources */,
+				B00000000000000000000017 /* ProductDetailView.swift in Sources */,
+				B00000000000000000000018 /* CatalogViews.swift in Sources */,
+				B00000000000000000000019 /* SplashOnboardingViews.swift in Sources */,
+				B00000000000000000000020 /* KYCStatusView.swift in Sources */,
+				B00000000000000000000021 /* HomeView.swift in Sources */,
+				B00000000000000000000022 /* ReceiptDetailView.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		190000000000000000000001 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		190000000000000000000002 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		190000000000000000000003 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CODE_SIGNING_ALLOWED = NO;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "";
+				DEVELOPMENT_TEAM = "";
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = SWARPVouchers/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.swarppay.localdemo.SWARPVouchers;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		190000000000000000000004 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CODE_SIGNING_ALLOWED = NO;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "";
+				DEVELOPMENT_TEAM = "";
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = SWARPVouchers/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.swarppay.localdemo.SWARPVouchers;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		170000000000000000000001 /* Build configuration list for PBXProject "SWARPVouchers" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				190000000000000000000001 /* Debug */,
+				190000000000000000000002 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		170000000000000000000003 /* Build configuration list for PBXNativeTarget "SWARPVouchers" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				190000000000000000000003 /* Debug */,
+				190000000000000000000004 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 180000000000000000000001 /* Project object */;
+}
