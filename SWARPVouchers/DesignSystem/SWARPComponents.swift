@@ -241,6 +241,29 @@ struct SurfaceCard<Content: View>: View {
     }
 }
 
+struct FeatureUnavailableCard: View {
+    let title: String
+    let message: String
+    var symbolName = "lock.shield.fill"
+
+    var body: some View {
+        SurfaceCard(padding: SWARPSpacing.lg, cornerRadius: SWARPRadius.xl, prominence: .elevated) {
+            VStack(alignment: .leading, spacing: SWARPSpacing.md) {
+                BrandedIcon(symbolName: symbolName, size: 54, accent: SWARPColor.warning)
+                Text(title)
+                    .font(.headline.bold())
+                    .foregroundStyle(SWARPColor.cream)
+                Text(message)
+                    .font(.subheadline)
+                    .lineSpacing(4)
+                    .foregroundStyle(SWARPColor.coolGray)
+                    .fixedSize(horizontal: false, vertical: true)
+            }
+        }
+        .privacySensitive()
+    }
+}
+
 enum SurfaceProminence {
     case subtle
     case standard

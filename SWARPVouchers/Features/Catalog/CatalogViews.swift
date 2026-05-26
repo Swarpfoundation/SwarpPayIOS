@@ -4,7 +4,7 @@ struct CatalogView: View {
     @EnvironmentObject private var appState: AppState
     @State private var selectedCategory: VoucherCategory?
     @State private var searchText = ""
-    private let products = DemoFixtures.products
+    private let products = InternalDemoData.products
 
     init(initialCategory: VoucherCategory? = nil) {
         _selectedCategory = State(initialValue: initialCategory)
@@ -27,6 +27,13 @@ struct CatalogView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: SWARPSpacing.md) {
             CatalogHeader(productCount: filteredProducts.count)
+            if !AppEnvironment.current.features.demoFixturesEnabled {
+                FeatureUnavailableCard(
+                    title: "Catalog unavailable",
+                    message: "This build has no production catalog backend configured. Voucher inventory is disabled until server-verified products are available.",
+                    symbolName: "ticket"
+                )
+            } else {
             CatalogSearchField(searchText: $searchText)
 
             ScrollView(.horizontal, showsIndicators: false) {
@@ -59,6 +66,7 @@ struct CatalogView: View {
                     }
                 }
                 .animation(SWARPMotion.smooth, value: filteredProducts)
+            }
             }
         }
     }

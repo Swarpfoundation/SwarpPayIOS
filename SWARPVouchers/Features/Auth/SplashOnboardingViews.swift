@@ -65,15 +65,29 @@ struct OnboardingView: View {
 
 struct LoginView: View {
     @EnvironmentObject private var appState: AppState
-    @State private var email = "eddine@swarppay.app"
-    @State private var passcode = "swarp"
+    @State private var email = ""
+    @State private var passcode = ""
 
     var body: some View {
         ScreenScaffold(title: "Sign in", subtitle: "Sign in to manage your vouchers, receipts, and support requests.") {
             VStack(spacing: SWARPSpacing.md) {
                 DemoTextField(title: "Email", text: $email)
                 DemoTextField(title: "Password", text: $passcode, secure: true)
-                PrimaryButton(title: "Continue") { appState.completeDemoAuth() }
+                #if DEBUG
+                if AppEnvironment.current.features.demoAuthEnabled {
+                    PrimaryButton(title: "Continue in internal demo") { appState.completeDemoAuth() }
+                } else {
+                    FeatureUnavailableCard(
+                        title: "Sign in is unavailable",
+                        message: "SwarpPay authentication requires a production backend and is disabled in this build. No local session has been created."
+                    )
+                }
+                #else
+                FeatureUnavailableCard(
+                    title: "Sign in is unavailable",
+                    message: "SwarpPay authentication requires a production backend and is disabled in this build. No local session has been created."
+                )
+                #endif
                 SecondaryButton(title: "Create account") { appState.path.append(AppRoute.register) }
                 Button("Forgot password?") { }
                     .font(SWARPType.detail.weight(.semibold))
@@ -85,15 +99,29 @@ struct LoginView: View {
 
 struct RegisterView: View {
     @EnvironmentObject private var appState: AppState
-    @State private var name = "Eddine"
-    @State private var email = "eddine@swarppay.app"
+    @State private var name = ""
+    @State private var email = ""
 
     var body: some View {
         ScreenScaffold(title: "Create account", subtitle: "Set up your SwarpPay profile to browse vouchers, track orders, and keep receipts in one place.") {
             VStack(spacing: SWARPSpacing.md) {
                 DemoTextField(title: "Full name", text: $name)
                 DemoTextField(title: "Email", text: $email)
-                PrimaryButton(title: "Create account") { appState.completeDemoAuth() }
+                #if DEBUG
+                if AppEnvironment.current.features.demoAuthEnabled {
+                    PrimaryButton(title: "Create internal demo account") { appState.completeDemoAuth() }
+                } else {
+                    FeatureUnavailableCard(
+                        title: "Account creation is unavailable",
+                        message: "Account creation requires a production backend and is disabled in this build. No local user or KYC state has been created."
+                    )
+                }
+                #else
+                FeatureUnavailableCard(
+                    title: "Account creation is unavailable",
+                    message: "Account creation requires a production backend and is disabled in this build. No local user or KYC state has been created."
+                )
+                #endif
                 SecondaryButton(title: "I already have an account") { appState.path.append(AppRoute.login) }
             }
         }

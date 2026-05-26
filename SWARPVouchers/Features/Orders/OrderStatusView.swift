@@ -3,7 +3,7 @@ import SwiftUI
 struct MyVouchersView: View {
     @EnvironmentObject private var appState: AppState
     @State private var filter: VoucherFilter = .active
-    private let orders = DemoFixtures.orders
+    private let orders = InternalDemoData.orders
 
     private var visibleOrders: [VoucherOrder] {
         switch filter {
@@ -30,6 +30,13 @@ struct MyVouchersView: View {
                     .foregroundStyle(SWARPColor.coolGray.opacity(0.72))
             }
 
+            if !AppEnvironment.current.features.demoFixturesEnabled {
+                FeatureUnavailableCard(
+                    title: "Vouchers unavailable",
+                    message: "Voucher ownership and receipts require backend authority and are disabled in this build. No voucher state is stored locally.",
+                    symbolName: "rectangle.stack.fill"
+                )
+            } else {
             VoucherSegmentedControl(selection: $filter)
 
             VStack(spacing: 12) {
@@ -43,7 +50,9 @@ struct MyVouchersView: View {
                     }
                 }
             }
+            }
         }
+        .privacySensitive()
     }
 }
 
@@ -93,13 +102,17 @@ private struct VoucherOrderCard: View {
     let order: VoucherOrder
     let action: () -> Void
 
-    private var product: VoucherProduct { DemoFixtures.product(id: order.productId) }
+    private var product: VoucherProduct? { InternalDemoData.product(id: order.productId) }
 
     var body: some View {
         Button(action: action) {
             SurfaceCard(padding: 10) {
                 HStack(spacing: 12) {
-                    BrandOrb(product: product)
+                    if let product {
+                        BrandOrb(product: product)
+                    } else {
+                        BrandedIcon(symbolName: order.category.symbolName, size: 62)
+                    }
                     VStack(alignment: .leading, spacing: 6) {
                         HStack(alignment: .top) {
                             VStack(alignment: .leading, spacing: 3) {

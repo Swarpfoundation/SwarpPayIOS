@@ -1,5 +1,6 @@
 import Foundation
 
+#if DEBUG
 final class DemoAPIClient: APIClient {
     func login(email: String, password: String) async throws -> UserSession {
         DemoFixtures.session(email: email)
@@ -33,6 +34,7 @@ final class DemoAPIClient: APIClient {
         []
     }
 }
+#endif
 
 enum DemoFixtures {
     static func session(email: String, name: String = "Eddine") -> UserSession {
@@ -48,7 +50,7 @@ enum DemoFixtures {
                 usedTodayMinor: 125_000,
                 usedMonthMinor: 460_000
             ),
-            sessionHandle: "swarppay-session"
+            sessionHandle: "debug-session-\(UUID().uuidString)"
         )
     }
 

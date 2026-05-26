@@ -31,6 +31,7 @@
 		B00000000000000000000022 /* ReceiptDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00000000000000000000022 /* ReceiptDetailView.swift */; };
 		B00000000000000000000023 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F00000000000000000000023 /* Assets.xcassets */; };
 		B00000000000000000000024 /* NotificationsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00000000000000000000025 /* NotificationsView.swift */; };
+		B00000000000000000000025 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = F00000000000000000000026 /* PrivacyInfo.xcprivacy */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -60,6 +61,7 @@
 		F00000000000000000000023 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		F00000000000000000000024 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F00000000000000000000025 /* NotificationsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Features/Notifications/NotificationsView.swift; sourceTree = "<group>"; };
+		F00000000000000000000026 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -117,6 +119,7 @@
 				F00000000000000000000025 /* NotificationsView.swift */,
 				F00000000000000000000023 /* Assets.xcassets */,
 				F00000000000000000000024 /* Info.plist */,
+				F00000000000000000000026 /* PrivacyInfo.xcprivacy */,
 			);
 			path = SWARPVouchers;
 			sourceTree = "<group>";
@@ -184,6 +187,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B00000000000000000000023 /* Assets.xcassets in Resources */,
+				B00000000000000000000025 /* PrivacyInfo.xcprivacy in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -379,7 +383,7 @@
 				INFOPLIST_FILE = SWARPVouchers/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.swarppay.localdemo.SWARPVouchers;
+				PRODUCT_BUNDLE_IDENTIFIER = "$(SWARPPAY_PRODUCT_BUNDLE_IDENTIFIER)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SWIFT_EMIT_LOC_STRINGS = YES;

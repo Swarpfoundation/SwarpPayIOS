@@ -7,7 +7,7 @@ struct SupportView: View {
     @State private var selectedTopic: SupportTopic = .claim
     @State private var selectedOrderId: String?
     @State private var message = ""
-    @State private var contactEmail = "eddine@swarppay.app"
+    @State private var contactEmail = ""
     @State private var expandedQuestion: SupportQuestion.ID?
     @State private var submitState: SubmitState = .idle
     @State private var ticketReference: String?
@@ -15,7 +15,7 @@ struct SupportView: View {
 
     let reference: String?
 
-    private let orders = DemoFixtures.orders
+    private let orders = InternalDemoData.orders
     private let questions = SupportQuestion.defaults
     private let ticketHistory = SupportTicketPreview.defaults
 
@@ -29,6 +29,7 @@ struct SupportView: View {
     }
 
     private var canSubmit: Bool {
+        AppEnvironment.current.features.supportSubmissionEnabled &&
         !message.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty &&
         !contactEmail.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty &&
         submitState != .submitting
@@ -39,6 +40,14 @@ struct SupportView: View {
             SupportHeroCard()
                 .opacity(contentVisible ? 1 : 0)
                 .offset(y: contentVisible || reduceMotion ? 0 : 12)
+
+            if !AppEnvironment.current.features.supportSubmissionEnabled {
+                FeatureUnavailableCard(
+                    title: "Support submission is disabled",
+                    message: "Support ticket submission requires a backend and is disabled in this build. Do not enter voucher codes, payment details, receipt references, or personal data here.",
+                    symbolName: "headphones"
+                )
+            }
 
             SupportTopicGrid(selectedTopic: $selectedTopic) { topic in
                 selectedTopic = topic
@@ -99,6 +108,7 @@ struct SupportView: View {
                 contentVisible = true
             }
         }
+        .privacySensitive()
     }
 
     private func submitTicket() {
@@ -111,21 +121,18 @@ struct SupportView: View {
         }
 
         guard canSubmit else { return }
+        guard AppEnvironment.current.features.supportSubmissionEnabled else {
+            submitState = .failed("Support submission requires a backend and is disabled in this build.")
+            return
+        }
         focusedField = nil
         submitState = .submitting
 
         let trimmedMessage = message.trimmingCharacters(in: .whitespacesAndNewlines)
-        let body = """
-        Contact: \(contactEmail.trimmingCharacters(in: .whitespacesAndNewlines))
-        Topic: \(selectedTopic.title)
-        Reference: \(effectiveReference.isEmpty ? "No reference selected" : effectiveReference)
-
-        \(trimmedMessage)
-        """
         let draft = SupportTicketDraft(
             category: selectedTopic.rawValue,
             reference: effectiveReference,
-            message: body
+            message: trimmedMessage
         )
 
         Task {
@@ -208,11 +215,11 @@ private enum SupportTopic: String, CaseIterable, Identifiable {
         let referenceLine = reference.isEmpty ? "" : "\nReference: \(reference)"
         switch self {
         case .claim:
-            return "I need help claiming a voucher.\(referenceLine)"
+            return "I need help with a claim.\(referenceLine)"
         case .delivery:
-            return "My voucher has not arrived yet.\(referenceLine)"
+            return "I need help with delivery.\(referenceLine)"
         case .receipt:
-            return "I need help finding or correcting a receipt.\(referenceLine)"
+            return "I need help with a receipt.\(referenceLine)"
         case .verification:
             return "I need help with verification or purchase limits.\(referenceLine)"
         }
@@ -476,7 +483,7 @@ private struct SupportFormCard: View {
                             .overlay(RoundedRectangle(cornerRadius: 18).stroke(.white.opacity(0.10), lineWidth: 1))
                             .overlay(alignment: .topLeading) {
                                 if message.isEmpty {
-                                    Text("Tell us what happened. Include the voucher code, order reference, or receipt details.")
+                                    Text("Describe the issue without adding codes, payment details, receipt references, or personal data.")
                                         .font(.caption)
                                         .foregroundStyle(SWARPColor.coolGray.opacity(0.58))
                                         .padding(16)
@@ -559,7 +566,7 @@ private struct SupportSubmitStatus: View {
             HStack(spacing: 10) {
                 Image(systemName: "checkmark.seal.fill")
                     .foregroundStyle(SWARPColor.success)
-                Text("Request created\(ticketReference.map { ": \($0)" } ?? ".")")
+                Text(ticketReference == nil ? "Request created." : "Request created.")
                     .font(.caption.weight(.semibold))
                     .foregroundStyle(SWARPColor.success)
             }
@@ -593,19 +600,19 @@ private struct SupportQuestion: Identifiable {
         SupportQuestion(
             id: "claim",
             title: "My voucher link does not open",
-            answer: "Check that the full claim link or code was copied. If it still fails, send us the reference and we will inspect the claim state.",
+            answer: "Claim links must be verified by the backend before any voucher state changes.",
             symbolName: "link.badge.plus"
         ),
         SupportQuestion(
             id: "delivery",
             title: "My voucher is not delivered",
-            answer: "Most digital vouchers appear immediately. If a voucher remains active without a receipt, open a delivery request with the order reference.",
+            answer: "Delivery status must come from the backend. This build does not submit delivery tickets.",
             symbolName: "paperplane"
         ),
         SupportQuestion(
             id: "receipt",
             title: "I need my receipt",
-            answer: "Delivered vouchers include a receipt in My Vouchers. Support can resend or correct receipt details after review.",
+            answer: "Receipts must be issued by the backend after verified payment. This build cannot issue or resend receipts.",
             symbolName: "doc.text"
         ),
         SupportQuestion(
@@ -668,16 +675,16 @@ private struct SupportTicketPreview: Identifiable {
 
     static let defaults = [
         SupportTicketPreview(
-            id: "SUP-8174",
-            title: "Spotify claim question",
-            detail: "Last update: support asked for claim reference",
+            id: "support-waiting",
+            title: "Claim question",
+            detail: "Support update available after sign-in.",
             status: "Waiting",
             tone: SWARPColor.warning
         ),
         SupportTicketPreview(
-            id: "SUP-6842",
-            title: "Netflix receipt resend",
-            detail: "Receipt sent to eddine@swarppay.app",
+            id: "support-solved",
+            title: "Receipt question",
+            detail: "Resolved support item.",
             status: "Solved",
             tone: SWARPColor.success
         )

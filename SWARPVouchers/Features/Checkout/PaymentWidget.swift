@@ -5,9 +5,7 @@ struct CheckoutView: View {
     let productId: String
     @State private var selectedDenominationMinor: Int
 
-    private var product: VoucherProduct {
-        DemoFixtures.product(id: productId)
-    }
+    private var product: VoucherProduct? { InternalDemoData.product(id: productId) }
 
     private var serviceFeeMinor: Int {
         max(500, Int((Double(selectedDenominationMinor) * 0.025).rounded()))
@@ -15,12 +13,12 @@ struct CheckoutView: View {
 
     init(productId: String) {
         self.productId = productId
-        let product = DemoFixtures.product(id: productId)
-        _selectedDenominationMinor = State(initialValue: product.defaultAmountMinor)
+        _selectedDenominationMinor = State(initialValue: InternalDemoData.product(id: productId)?.defaultAmountMinor ?? 0)
     }
 
     var body: some View {
         StackScreenScaffold(title: "Checkout") {
+            if let product, AppEnvironment.current.features.checkoutEnabled {
             VStack(alignment: .leading, spacing: 6) {
                 Text("Selected voucher")
                     .font(.caption.weight(.bold))
@@ -65,24 +63,35 @@ struct CheckoutView: View {
             PriceBreakdownCard(subtotalMinor: selectedDenominationMinor, serviceFeeMinor: serviceFeeMinor, currency: product.currency)
 
             NeedHelpCard()
-        } bottomBar: {
-            CTAButton(
-                title: "Confirm purchase",
-                subtitle: "Total \(money(selectedDenominationMinor + serviceFeeMinor))",
-                symbolName: "lock.fill"
-            ) {
-                Haptics.success()
-                appState.path.append(AppRoute.receipt(receiptIdForProduct(product.id)))
+            } else {
+                FeatureUnavailableCard(
+                    title: "Checkout is not available in this build",
+                    message: "SwarpPay payments require backend verification and are currently disabled. No payment has been processed.",
+                    symbolName: "creditcard.trianglebadge.exclamationmark"
+                )
             }
+        } bottomBar: {
+            #if DEBUG
+            if let product, AppEnvironment.current.features.checkoutEnabled {
+                CTAButton(
+                    title: "Confirm internal demo purchase",
+                    subtitle: "Demo total \(money(selectedDenominationMinor + serviceFeeMinor, currency: product.currency))",
+                    symbolName: "lock.fill"
+                ) {
+                    Haptics.success()
+                    appState.path.append(AppRoute.receipt("receipt-\(product.id)"))
+                }
+            } else {
+                CTAButton(title: "Checkout disabled", subtitle: "No payment has been processed", symbolName: "lock.fill") { }
+            }
+            #else
+            CTAButton(title: "Checkout disabled", subtitle: "No payment has been processed", symbolName: "lock.fill") { }
+            #endif
         }
     }
 
-    private func money(_ minor: Int) -> String {
-        String(format: "%.2f %@", Double(minor) / 100.0, product.currency)
-    }
-
-    private func receiptIdForProduct(_ id: String) -> String {
-        "receipt-\(id)"
+    private func money(_ minor: Int, currency: String) -> String {
+        String(format: "%.2f %@", Double(minor) / 100.0, currency)
     }
 }
 

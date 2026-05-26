@@ -3,19 +3,24 @@ import SwiftUI
 struct ReceiptDetailView: View {
     let receiptId: String
 
-    private var receipt: Receipt {
-        DemoFixtures.receipt(id: receiptId)
-    }
+    private var receipt: Receipt? { InternalDemoData.receipt(id: receiptId) }
 
-    private var product: VoucherProduct {
-        DemoFixtures.product(id: receipt.productId)
-    }
+    private var product: VoucherProduct? { receipt.flatMap { InternalDemoData.product(id: $0.productId) } }
 
     var body: some View {
         StackScreenScaffold(title: "Receipt") {
+            if AppEnvironment.current.features.receiptIssuingEnabled, let receipt, let product {
             ReceiptCard(receipt: receipt, product: product)
             NeedHelpReceiptCard()
+            } else {
+                FeatureUnavailableCard(
+                    title: "Receipt unavailable",
+                    message: "Receipts require backend verification and are disabled in this build. No receipt has been issued.",
+                    symbolName: "doc.text.fill"
+                )
+            }
         }
+        .privacySensitive()
     }
 }
 

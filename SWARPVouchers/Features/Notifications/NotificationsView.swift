@@ -19,19 +19,19 @@ struct SwarpNotification: Identifiable {
     static let mocks: [SwarpNotification] = [
         SwarpNotification(
             id: "claim-ready",
-            title: "Voucher claimed",
-            body: "Spotify Premium is ready in your vouchers.",
+            title: "Claim update",
+            body: "A voucher update is available after sign-in.",
             time: "Just now",
             symbolName: "gift.fill",
             tint: SWARPColor.signal,
             isUnread: true,
-            actionTitle: "Open claim",
-            target: .route(.claim("SPAY-8K72-MAD"))
+            actionTitle: "See vouchers",
+            target: .tab(.vouchers)
         ),
         SwarpNotification(
             id: "reward-credit",
-            title: "Reward unlocked",
-            body: "You got 10 MAD voucher credit after your latest claim.",
+            title: "Account update",
+            body: "A new account update is available inside the app.",
             time: "8 min ago",
             symbolName: "sparkles",
             tint: SWARPColor.gold,
@@ -41,19 +41,19 @@ struct SwarpNotification: Identifiable {
         ),
         SwarpNotification(
             id: "steam-delivered",
-            title: "Steam Wallet delivered",
-            body: "Your 100 MAD Steam Wallet code and receipt are available.",
+            title: "Delivery update",
+            body: "A delivery status update is available after sign-in.",
             time: "Today",
             symbolName: "checkmark.seal.fill",
             tint: SWARPColor.success,
             isUnread: false,
-            actionTitle: "View receipt",
-            target: .route(.receipt("receipt-steam-wallet"))
+            actionTitle: "See vouchers",
+            target: .tab(.vouchers)
         ),
         SwarpNotification(
             id: "limit-update",
-            title: "Tier 2 limit refreshed",
-            body: "Your daily voucher limit is available again.",
+            title: "Verification update",
+            body: "A verification update is available after sign-in.",
             time: "Yesterday",
             symbolName: "shield.checkered",
             tint: Color(hex: 0x8CF5D2),
@@ -64,13 +64,13 @@ struct SwarpNotification: Identifiable {
         SwarpNotification(
             id: "support-reply",
             title: "Support replied",
-            body: "We added an update to your voucher claim question.",
+            body: "A support update is available inside the app.",
             time: "22 May",
             symbolName: "headphones",
             tint: Color(hex: 0x60A5FA),
             isUnread: false,
             actionTitle: "Open support",
-            target: .route(.support("SPAY-2026-0522-8174"))
+            target: .tab(.support)
         )
     ]
 

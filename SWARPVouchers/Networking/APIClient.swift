@@ -11,11 +11,63 @@ protocol APIClient {
     func metrics() async throws -> [DashboardMetric]
 }
 
+enum APIClientError: LocalizedError, Equatable {
+    case backendNotConfigured
+    case featureUnavailable(String)
+    case productionBackendRequired(String)
+
+    var errorDescription: String? {
+        switch self {
+        case .backendNotConfigured:
+            return "Production backend is not configured."
+        case .featureUnavailable(let feature):
+            return "\(feature) is unavailable in this build."
+        case .productionBackendRequired(let feature):
+            return "\(feature) requires a verified production backend."
+        }
+    }
+}
+
+final class NoBackendAPIClient: APIClient {
+    func login(email: String, password: String) async throws -> UserSession {
+        throw APIClientError.productionBackendRequired("Authentication")
+    }
+
+    func register(email: String, name: String) async throws -> UserSession {
+        throw APIClientError.productionBackendRequired("Account creation")
+    }
+
+    func catalog() async throws -> [VoucherProduct] {
+        throw APIClientError.backendNotConfigured
+    }
+
+    func orders() async throws -> [VoucherOrder] {
+        throw APIClientError.productionBackendRequired("Voucher state")
+    }
+
+    func receipt(id: String) async throws -> Receipt {
+        throw APIClientError.productionBackendRequired("Receipt lookup")
+    }
+
+    func claimPreview(linkValue: String) async throws -> ClaimPreview {
+        throw APIClientError.productionBackendRequired("Voucher claiming")
+    }
+
+    func submitSupport(_ draft: SupportTicketDraft) async throws -> String {
+        throw APIClientError.productionBackendRequired("Support submission")
+    }
+
+    func metrics() async throws -> [DashboardMetric] {
+        throw APIClientError.backendNotConfigured
+    }
+}
+
 final class URLSessionAPIClient: APIClient {
     private let config: EnvironmentConfig
     private let session: URLSession
 
-    init(config: EnvironmentConfig = .localDemo, session: URLSession = .shared) {
+    init(config: EnvironmentConfig, session: URLSession = .shared) {
+        precondition(SecurityPolicy.acceptsAPIBaseURL(config.apiBaseURL), "Release API base URL must use HTTPS.")
         self.config = config
         self.session = session
     }

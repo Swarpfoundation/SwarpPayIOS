@@ -1,14 +1,12 @@
 import Foundation
 
 struct DeepLinkRouter {
-    private let allowedHosts = Set(["swarpvouchers.local", "swarppay.local", "localhost"])
-    private let allowedSchemes = Set(["https", "swarpvouchers-demo"])
+    private let debugHosts = Set(["swarpvouchers.local", "swarppay.local", "127.0.0.1"])
+    private let productionHosts = Set<String>()
 
     func route(for url: URL) -> AppRoute? {
-        guard let scheme = url.scheme?.lowercased(), allowedSchemes.contains(scheme) else { return nil }
-        if scheme == "https" {
-            guard let host = url.host?.lowercased(), allowedHosts.contains(host) else { return nil }
-        }
+        guard let scheme = url.scheme?.lowercased(), scheme == "https" else { return nil }
+        guard let host = url.host?.lowercased(), allowedHosts.contains(host) else { return nil }
 
         let parts = routeParts(for: url)
         guard let first = parts.first else { return nil }
@@ -34,19 +32,17 @@ struct DeepLinkRouter {
             return .kyc
         case "orders", "vouchers", "my-vouchers":
             return .orders
-        case "receipt" where parts.count >= 2:
+        case "receipt" where parts.count >= 2 && AppEnvironment.current.features.receiptIssuingEnabled:
             return .receipt(demoReceiptId(parts[1]))
-        case "claim" where parts.count >= 2 && scheme == "swarpvouchers-demo":
-            return .claim("claim \(redacted(parts[1]))")
         case "profile":
             return .profile
         case "r" where parts.count >= 2:
             return .support("Referral \(redacted(parts[1]))")
         case "campaigns" where parts.count >= 2:
             return .support("Campaign \(safeSegment(parts[1]))")
-        case "claim" where parts.count >= 2:
+        case "claim" where parts.count >= 2 && AppEnvironment.current.features.voucherClaimEnabled:
             return .claim(redacted(parts[1]))
-        case "receipts" where parts.count >= 2:
+        case "receipts" where parts.count >= 2 && AppEnvironment.current.features.receiptIssuingEnabled:
             return .receipt(redacted(parts[1]))
         case "support":
             return .support(parts.dropFirst().first.map { "Support \(redacted($0))" })
@@ -55,12 +51,17 @@ struct DeepLinkRouter {
         }
     }
 
+    private var allowedHosts: Set<String> {
+        #if DEBUG
+        return debugHosts
+        #else
+        return productionHosts
+        #endif
+    }
+
     private func routeParts(for url: URL) -> [String] {
         let pathParts = url.pathComponents.filter { $0 != "/" }
-        guard url.scheme == "swarpvouchers-demo", let host = url.host, !allowedHosts.contains(host) else {
-            return pathParts
-        }
-        return [host] + pathParts
+        return pathParts
     }
 
     private func categoryRoute(_ value: String) -> VoucherCategory? {

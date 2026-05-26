@@ -5,16 +5,12 @@ struct ClaimPreviewView: View {
     @State private var readyVisible = false
     let linkValue: String
 
-    private var preview: ClaimPreview {
-        DemoFixtures.claimPreview(reference: linkValue)
-    }
-
-    private var product: VoucherProduct {
-        DemoFixtures.product(id: preview.productId)
-    }
+    private var preview: ClaimPreview? { InternalDemoData.claimPreview(reference: linkValue) }
+    private var product: VoucherProduct? { preview.flatMap { InternalDemoData.product(id: $0.productId) } }
 
     var body: some View {
         StackScreenScaffold(title: "Claim voucher") {
+            if AppEnvironment.current.features.voucherClaimEnabled, let preview, let product {
             VStack(alignment: .leading, spacing: 6) {
                 Text("Claim voucher")
                     .font(.system(size: 26, weight: .semibold))
@@ -52,14 +48,23 @@ struct ClaimPreviewView: View {
                 }
             }
 
-            CTAButton(title: "Claim voucher", symbolName: "gift.fill") {
-                Haptics.success()
-                appState.selectedTab = .vouchers
-                if !appState.path.isEmpty {
-                    appState.path.removeLast()
+            #if DEBUG
+                CTAButton(title: "Claim voucher", symbolName: "gift.fill") {
+                    Haptics.success()
+                    appState.selectedTab = .vouchers
+                    if !appState.path.isEmpty {
+                        appState.path.removeLast()
+                    }
                 }
+                .padding(.top, SWARPSpacing.md)
+            #endif
+            } else {
+                FeatureUnavailableCard(
+                    title: "Voucher claiming is disabled",
+                    message: "Voucher claiming requires server verification and is disabled in this build. No voucher has been claimed.",
+                    symbolName: "gift.fill"
+                )
             }
-            .padding(.top, SWARPSpacing.md)
         }
         .onAppear {
             withAnimation(.spring(response: 0.34, dampingFraction: 0.76).delay(0.12)) {

@@ -2,31 +2,36 @@ import SwiftUI
 
 struct ProfileView: View {
     @EnvironmentObject private var appState: AppState
-    private let session = DemoFixtures.session(email: "eddine@swarppay.app")
-    private let recentOrder = DemoFixtures.orders[0]
-    private let recentReceipt = DemoFixtures.receipts[0]
+    private let session = InternalDemoData.session()
+    private let recentOrder = InternalDemoData.orders.first
+    private let recentReceipt = InternalDemoData.receipts.first
 
     var body: some View {
         VStack(alignment: .leading, spacing: SWARPSpacing.md) {
-            ProfileHero(name: session.displayName)
+            ProfileHero(name: session?.displayName ?? "SwarpPay")
 
+            if let session, AppEnvironment.current.features.demoFixturesEnabled {
             SectionHeader(title: "Account health")
             AccountHealthCard(kyc: session.kyc)
 
             SectionHeader(title: "Recent activity")
             ProfileSectionCard {
+                if let recentOrder {
                 ProfileActionRow(
                     symbolName: "bag.fill",
                     title: "Last order",
                     subtitle: "\(recentOrder.productTitle) · \(recentOrder.formattedAmount)",
                     value: recentOrder.status
                 )
+                }
+                if let recentReceipt {
                 ProfileActionRow(
                     symbolName: "doc.text.fill",
                     title: "Last receipt",
                     subtitle: recentReceipt.reference,
                     value: "Available"
                 )
+                }
                 ProfileActionRow(
                     symbolName: "gift.fill",
                     title: "Last claim",
@@ -48,12 +53,20 @@ struct ProfileView: View {
                 ProfileActionRow(symbolName: "lock.fill", title: "Passcode", subtitle: "Required for purchase confirmation", value: "On")
                 ProfileActionRow(symbolName: "iphone.gen3", title: "Trusted device", subtitle: "This iPhone", value: "Active")
             }
+            } else {
+                FeatureUnavailableCard(
+                    title: "Profile unavailable",
+                    message: "Profile, KYC, order, and receipt data require backend authority and are disabled in this build. No local authenticated state exists.",
+                    symbolName: "person.crop.circle.badge.exclamationmark"
+                )
+            }
 
             SectionHeader(title: "Support")
             SupportStatusCard {
                 appState.selectedTab = .support
             }
 
+            if let session, AppEnvironment.current.features.demoFixturesEnabled {
             SectionHeader(title: "Personal details")
             ProfileSectionCard {
                 ProfileActionRow(symbolName: "person.fill", title: "Name", subtitle: "Profile display name", value: session.displayName)
@@ -67,7 +80,15 @@ struct ProfileView: View {
                 ProfileActionRow(symbolName: "dollarsign.circle.fill", title: "Currency", subtitle: "Purchase display", value: "MAD")
                 ProfileActionRow(symbolName: "bell.badge.fill", title: "Notifications", subtitle: "Delivery and support updates", value: "Enabled")
             }
+            }
+
+            if AppEnvironment.current.features.demoAuthEnabled {
+                SecondaryButton(title: "Clear local session") {
+                    appState.clearLocalSession()
+                }
+            }
         }
+        .privacySensitive()
     }
 }
 

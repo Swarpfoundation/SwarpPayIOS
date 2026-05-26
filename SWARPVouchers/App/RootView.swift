@@ -2,6 +2,7 @@ import SwiftUI
 
 struct RootView: View {
     @EnvironmentObject private var appState: AppState
+    @Environment(\.scenePhase) private var scenePhase
     @State private var showingLaunchIntro = true
 
     var body: some View {
@@ -22,6 +23,27 @@ struct RootView: View {
                 .transition(.opacity)
             }
         }
+        .overlay {
+            if scenePhase != .active {
+                PrivacyShieldView()
+                    .transition(.opacity)
+            }
+        }
+    }
+}
+
+private struct PrivacyShieldView: View {
+    var body: some View {
+        ZStack {
+            LinearGradient(
+                colors: [SWARPColor.deepest, SWARPColor.primaryDark, .black],
+                startPoint: .top,
+                endPoint: .bottom
+            )
+            LogoMark(size: 72, glow: true, accessibilityLabel: "SwarpPay")
+        }
+        .ignoresSafeArea()
+        .privacySensitive()
     }
 }
 

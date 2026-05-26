@@ -5,18 +5,16 @@ struct ProductDetailView: View {
     let productId: String
     @State private var selectedDenominationMinor: Int
 
-    private var product: VoucherProduct {
-        DemoFixtures.product(id: productId)
-    }
+    private var product: VoucherProduct? { InternalDemoData.product(id: productId) }
 
     init(productId: String) {
         self.productId = productId
-        let product = DemoFixtures.product(id: productId)
-        _selectedDenominationMinor = State(initialValue: product.defaultAmountMinor)
+        _selectedDenominationMinor = State(initialValue: InternalDemoData.product(id: productId)?.defaultAmountMinor ?? 0)
     }
 
     var body: some View {
         StackScreenScaffold(title: "Voucher detail", showsRightActions: true) {
+            if let product {
             PremiumVoucherCard(product: product, amountMinor: selectedDenominationMinor, compact: true)
 
             SectionHeader(title: "Available denominations")
@@ -50,9 +48,20 @@ struct ProductDetailView: View {
                     .lineSpacing(4)
                     .foregroundStyle(SWARPColor.coolGray)
             }
+            } else {
+                FeatureUnavailableCard(
+                    title: "Voucher details unavailable",
+                    message: "This build has no production catalog backend configured. Voucher details are disabled until server-verified inventory is available.",
+                    symbolName: "ticket"
+                )
+            }
         } bottomBar: {
-            CTAButton(title: "Continue to checkout", subtitle: "Digital delivery after confirmation") {
-                appState.path.append(AppRoute.checkout(product.id))
+            if let product, AppEnvironment.current.features.checkoutEnabled {
+                CTAButton(title: "Continue to checkout", subtitle: "Internal demo only") {
+                    appState.path.append(AppRoute.checkout(product.id))
+                }
+            } else {
+                CTAButton(title: "Checkout unavailable", subtitle: "Backend verification required", symbolName: "lock.fill") { }
             }
         }
     }

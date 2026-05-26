@@ -10,7 +10,7 @@ final class AppState: ObservableObject {
     private let routeParser = DeepLinkRouter()
 
     init(
-        api: APIClient = DemoAPIClient(),
+        api: APIClient = AppEnvironment.current.api,
         keychain: SecureSessionStore = KeychainSessionStore(),
         launchArguments: [String] = ProcessInfo.processInfo.arguments
     ) {
@@ -25,8 +25,16 @@ final class AppState: ObservableObject {
         selectedTab = .home
     }
 
+    #if DEBUG
     func completeDemoAuth() {
-        try? keychain.save(sessionHandle: "swarppay-session")
+        try? keychain.save(sessionHandle: "debug-session-\(UUID().uuidString)")
+        path = NavigationPath()
+        selectedTab = .home
+    }
+    #endif
+
+    func clearLocalSession() {
+        try? keychain.clear()
         path = NavigationPath()
         selectedTab = .home
     }
@@ -46,6 +54,8 @@ final class AppState: ObservableObject {
     }
 
     private func applyLaunchArguments(_ arguments: [String]) {
+        guard AppEnvironment.current.features.demoFixturesEnabled else { return }
+        #if DEBUG
         guard
             let routeFlagIndex = arguments.firstIndex(of: "--swarp-demo-route"),
             arguments.indices.contains(routeFlagIndex + 1)
@@ -56,11 +66,12 @@ final class AppState: ObservableObject {
             .trimmingCharacters(in: CharacterSet(charactersIn: "/"))
         guard
             !routeValue.isEmpty,
-            let url = URL(string: "swarpvouchers-demo://\(routeValue)"),
+            let url = URL(string: "https://swarpvouchers.local/\(routeValue)"),
             let route = routeParser.route(for: url)
         else { return }
 
         apply(route: route)
+        #endif
     }
 
     private func apply(route: AppRoute) {

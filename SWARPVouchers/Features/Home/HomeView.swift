@@ -4,9 +4,9 @@ struct HomeView: View {
     @EnvironmentObject private var appState: AppState
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
     @State private var dashboardVisible = false
-    private let products = DemoFixtures.products
-    private let orders = DemoFixtures.orders
-    private let session = DemoFixtures.session(email: "eddine@swarppay.app")
+    private let products = InternalDemoData.products
+    private let orders = InternalDemoData.orders
+    private let session = InternalDemoData.session()
 
     private var activeOrders: [VoucherOrder] {
         orders.filter { $0.status == "Active" }
@@ -18,17 +18,25 @@ struct HomeView: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: SWARPSpacing.md) {
-            DashboardGreeting(name: session.displayName)
+            DashboardGreeting(name: session?.displayName ?? "SwarpPay")
 
+            if AppEnvironment.current.features.demoFixturesEnabled, let session {
             WalletHeroCard(
                 activeValueMinor: activeValueMinor,
                 activeCount: activeOrders.count,
                 kyc: session.kyc,
-                claimAction: { appState.path.append(AppRoute.claim("SPAY-8K72-MAD")) },
+                claimAction: { appState.path.append(AppRoute.claim("debug-claim-preview")) },
                 browseAction: { appState.selectedTab = .catalog }
             )
             .opacity(dashboardVisible ? 1 : 0)
             .offset(y: dashboardVisible || reduceMotion ? 0 : 16)
+            } else {
+                FeatureUnavailableCard(
+                    title: "Frontend preview mode",
+                    message: "Authentication, vouchers, claims, receipts, KYC, and payment actions require backend verification and are disabled in this build.",
+                    symbolName: "lock.shield.fill"
+                )
+            }
 
             SectionHeader(title: "Quick actions")
             LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: 10), count: 2), spacing: 10) {
@@ -39,13 +47,14 @@ struct HomeView: View {
                     appState.selectedTab = .vouchers
                 }
                 QuickActionTile(title: "Claim", symbolName: "gift", detail: "Use a voucher link") {
-                    appState.path.append(AppRoute.claim("SPAY-8K72-MAD"))
+                    appState.path.append(AppRoute.claim("debug-claim-preview"))
                 }
                 QuickActionTile(title: "Support", symbolName: "headphones", detail: "Get help") {
                     appState.selectedTab = .support
                 }
             }
 
+            if AppEnvironment.current.features.demoFixturesEnabled {
             SectionHeader(title: "Featured vouchers", actionTitle: "See all") {
                 appState.selectedTab = .catalog
             }
@@ -71,6 +80,7 @@ struct HomeView: View {
                         }
                     }
                 }
+            }
             }
         }
         .onAppear {
@@ -219,14 +229,18 @@ private struct RecentActivityRow: View {
     let order: VoucherOrder
     let action: () -> Void
 
-    private var product: VoucherProduct { DemoFixtures.product(id: order.productId) }
+    private var product: VoucherProduct? { InternalDemoData.product(id: order.productId) }
     private var statusTone: Color { order.status == "Delivered" ? SWARPColor.success : SWARPColor.gold }
 
     var body: some View {
         Button(action: action) {
             SurfaceCard(padding: 12, cornerRadius: SWARPRadius.lg, prominence: .subtle) {
                 HStack(spacing: 12) {
-                    BrandOrb(product: product, size: 48)
+                    if let product {
+                        BrandOrb(product: product, size: 48)
+                    } else {
+                        BrandedIcon(symbolName: order.category.symbolName, size: 48)
+                    }
                     VStack(alignment: .leading, spacing: 4) {
                         Text(order.productTitle)
                             .font(.subheadline.bold())
@@ -253,13 +267,17 @@ private struct MiniOrderCard: View {
     let order: VoucherOrder
     let action: () -> Void
 
-    private var product: VoucherProduct { DemoFixtures.product(id: order.productId) }
+    private var product: VoucherProduct? { InternalDemoData.product(id: order.productId) }
 
     var body: some View {
         Button(action: action) {
             SurfaceCard(padding: 12) {
                 HStack(spacing: 12) {
-                    BrandOrb(product: product, size: 46)
+                    if let product {
+                        BrandOrb(product: product, size: 46)
+                    } else {
+                        BrandedIcon(symbolName: order.category.symbolName, size: 46)
+                    }
                     VStack(alignment: .leading, spacing: 4) {
                         Text(order.productTitle)
                             .font(.subheadline.weight(.semibold))
