@@ -141,17 +141,21 @@ struct ConsumerAppShell: View {
 
     var body: some View {
         VStack(spacing: 0) {
-            header
-            ScrollView {
-                VStack(spacing: SWARPSpacing.md) {
-                    tabContent
+            ZStack(alignment: .top) {
+                ScrollView {
+                    VStack(spacing: SWARPSpacing.md) {
+                        tabContent
+                    }
+                    .padding(.horizontal, SWARPSpacing.md)
+                    .padding(.top, 72)
+                    .padding(.bottom, SWARPSpacing.lg)
                 }
-                .padding(.horizontal, SWARPSpacing.md)
-                .padding(.top, SWARPSpacing.xs)
-                .padding(.bottom, SWARPSpacing.lg)
+                .scrollIndicators(.hidden)
+                .animation(.easeInOut(duration: 0.20), value: appState.selectedTab)
+
+                header
+                    .zIndex(1)
             }
-            .scrollIndicators(.hidden)
-            .animation(.easeInOut(duration: 0.20), value: appState.selectedTab)
             BottomTabBar(selectedTab: $appState.selectedTab)
         }
         .premiumBackground()
@@ -163,18 +167,6 @@ struct ConsumerAppShell: View {
             ProfileAvatarButton(isSelected: appState.selectedTab == .profile) {
                 withAnimation(SWARPMotion.smooth) {
                     appState.selectedTab = .profile
-                }
-            }
-            if appState.selectedTab != .home {
-                VStack(alignment: .leading, spacing: 3) {
-                    Text(appState.selectedTab.headerTitle)
-                        .font(.headline.bold())
-                        .foregroundStyle(SWARPColor.cream)
-                        .lineLimit(1)
-                    Text(appState.selectedTab.headerSubtitle)
-                        .font(.caption)
-                        .foregroundStyle(SWARPColor.coolGray)
-                        .lineLimit(1)
                 }
             }
             Spacer()
@@ -228,28 +220,6 @@ private struct ProfileAvatarButton: View {
         }
         .buttonStyle(PressableScale())
         .accessibilityLabel("Profile")
-    }
-}
-
-private extension AppTab {
-    var headerTitle: String {
-        switch self {
-        case .home: "Manage vouchers"
-        case .catalog: "Browse catalog"
-        case .vouchers: "Your vouchers"
-        case .support: "Support"
-        case .profile: "Profile"
-        }
-    }
-
-    var headerSubtitle: String {
-        switch self {
-        case .home: "Claim, track, and redeem"
-        case .catalog: "Find brands and categories"
-        case .vouchers: "Active codes and receipts"
-        case .support: "Help with orders and claims"
-        case .profile: "Account and preferences"
-        }
     }
 }
 

@@ -498,16 +498,18 @@ struct VoucherMiniCard: View {
     let action: () -> Void
 
     var body: some View {
+        let cornerRadius: CGFloat = 22
+
         Button {
             Haptics.selection()
             action()
         } label: {
             ZStack(alignment: .bottomLeading) {
-                RoundedRectangle(cornerRadius: 22, style: .continuous)
+                RoundedRectangle(cornerRadius: cornerRadius, style: .continuous)
                     .fill(product.cardGradient)
-                ProductLogoMark(product: product, width: 112, height: 92, opacity: 0.90, fillsFrame: true)
-                    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
-                LinearGradient(colors: [.clear, .black.opacity(0.74)], startPoint: .center, endPoint: .bottom)
+                ProductLogoMark(product: product, width: 112, height: 144, opacity: 0.90, fillsFrame: true)
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                LinearGradient(colors: [.clear, .black.opacity(0.78)], startPoint: .top, endPoint: .bottom)
                 VStack(alignment: .leading, spacing: 3) {
                     Text(product.shortBrand)
                         .font(.caption.weight(.bold))
@@ -520,7 +522,8 @@ struct VoucherMiniCard: View {
                 .padding(11)
             }
             .frame(width: 112, height: 144)
-            .overlay(RoundedRectangle(cornerRadius: 22).stroke(.white.opacity(0.12), lineWidth: 1))
+            .clipShape(RoundedRectangle(cornerRadius: cornerRadius, style: .continuous))
+            .overlay(RoundedRectangle(cornerRadius: cornerRadius, style: .continuous).stroke(.white.opacity(0.12), lineWidth: 1))
             .shadow(color: product.glowColor.opacity(0.16), radius: 18, x: 0, y: 12)
         }
         .buttonStyle(PressableScale())
