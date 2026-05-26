@@ -31,6 +31,15 @@ final class AppState: ObservableObject {
         selectedTab = .home
     }
 
+    func navigate(to route: AppRoute) {
+        apply(route: route)
+    }
+
+    func select(tab: AppTab) {
+        path = NavigationPath()
+        selectedTab = tab
+    }
+
     func handle(url: URL) {
         guard let route = routeParser.route(for: url) else { return }
         apply(route: route)

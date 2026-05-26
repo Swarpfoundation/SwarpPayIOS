@@ -138,6 +138,7 @@ enum AppRoute: Hashable {
 
 struct ConsumerAppShell: View {
     @EnvironmentObject private var appState: AppState
+    @State private var showingNotifications = false
 
     var body: some View {
         VStack(spacing: 0) {
@@ -170,11 +171,35 @@ struct ConsumerAppShell: View {
                 }
             }
             Spacer()
-            IconCircleButton(symbolName: "bell", accessibilityLabel: "Notifications")
+            NotificationBellButton(unreadCount: SwarpNotification.mockUnreadCount) {
+                showingNotifications = true
+            }
         }
         .padding(.horizontal, SWARPSpacing.md)
         .padding(.top, 12)
         .padding(.bottom, SWARPSpacing.sm)
+        .sheet(isPresented: $showingNotifications) {
+            NotificationsView(notifications: SwarpNotification.mocks) { notification in
+                openNotification(notification)
+            }
+            .presentationDetents([.medium, .large])
+            .presentationDragIndicator(.visible)
+            .presentationBackground(SWARPColor.deepest.opacity(0.96))
+        }
+    }
+
+    private func openNotification(_ notification: SwarpNotification) {
+        showingNotifications = false
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.18) {
+            withAnimation(SWARPMotion.smooth) {
+                switch notification.target {
+                case .route(let route):
+                    appState.navigate(to: route)
+                case .tab(let tab):
+                    appState.select(tab: tab)
+                }
+            }
+        }
     }
 
     @ViewBuilder
