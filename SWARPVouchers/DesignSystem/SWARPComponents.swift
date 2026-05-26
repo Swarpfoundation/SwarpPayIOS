@@ -329,15 +329,18 @@ struct BrandOrb: View {
     var size: CGFloat = 62
 
     var body: some View {
+        let cornerRadius = size * 0.26
+
         ZStack {
-            RoundedRectangle(cornerRadius: size * 0.26, style: .continuous)
+            RoundedRectangle(cornerRadius: cornerRadius, style: .continuous)
                 .fill(product.cardGradient)
             LinearGradient(colors: [.white.opacity(0.16), .clear], startPoint: .topLeading, endPoint: .bottomTrailing)
-            ProductLogoMark(product: product, size: size * 0.76)
+            ProductLogoMark(product: product, width: size, height: size, opacity: 0.94, fillsFrame: true)
         }
         .frame(width: size, height: size)
+        .clipShape(RoundedRectangle(cornerRadius: cornerRadius, style: .continuous))
         .overlay(
-            RoundedRectangle(cornerRadius: size * 0.26, style: .continuous)
+            RoundedRectangle(cornerRadius: cornerRadius, style: .continuous)
                 .stroke(.white.opacity(0.13), lineWidth: 1)
         )
         .shadow(color: product.glowColor.opacity(0.18), radius: 22, x: 0, y: 12)
@@ -346,24 +349,44 @@ struct BrandOrb: View {
 
 struct ProductLogoMark: View {
     let product: VoucherProduct
-    var size: CGFloat
+    var width: CGFloat
+    var height: CGFloat
     var opacity: Double = 1
+    var fillsFrame = false
+
+    init(product: VoucherProduct, size: CGFloat, opacity: Double = 1, fillsFrame: Bool = false) {
+        self.product = product
+        self.width = size
+        self.height = size
+        self.opacity = opacity
+        self.fillsFrame = fillsFrame
+    }
+
+    init(product: VoucherProduct, width: CGFloat, height: CGFloat, opacity: Double = 1, fillsFrame: Bool = false) {
+        self.product = product
+        self.width = width
+        self.height = height
+        self.opacity = opacity
+        self.fillsFrame = fillsFrame
+    }
 
     var body: some View {
         Group {
             if let logoAssetName = product.logoAssetName {
                 Image(logoAssetName)
                     .resizable()
-                    .scaledToFit()
+                    .aspectRatio(contentMode: fillsFrame ? .fill : .fit)
             } else {
                 Image(systemName: product.symbolName)
                     .resizable()
                     .scaledToFit()
                     .symbolRenderingMode(.hierarchical)
                     .foregroundStyle(.white)
+                    .padding(fillsFrame ? min(width, height) * 0.18 : 0)
             }
         }
-        .frame(width: size, height: size)
+        .frame(width: width, height: height)
+        .clipped()
         .opacity(opacity)
         .shadow(color: .black.opacity(0.24), radius: 12, x: 0, y: 8)
     }
@@ -482,9 +505,8 @@ struct VoucherMiniCard: View {
             ZStack(alignment: .bottomLeading) {
                 RoundedRectangle(cornerRadius: 22, style: .continuous)
                     .fill(product.cardGradient)
-                ProductLogoMark(product: product, size: 82, opacity: 0.88)
+                ProductLogoMark(product: product, width: 112, height: 92, opacity: 0.90, fillsFrame: true)
                     .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
-                    .padding(.top, 16)
                 LinearGradient(colors: [.clear, .black.opacity(0.74)], startPoint: .center, endPoint: .bottom)
                 VStack(alignment: .leading, spacing: 3) {
                     Text(product.shortBrand)
@@ -590,9 +612,10 @@ struct CatalogProductRow: View {
                     ZStack {
                         RoundedRectangle(cornerRadius: 24, style: .continuous)
                             .fill(product.cardGradient)
-                        ProductLogoMark(product: product, size: 64, opacity: 0.95)
+                        ProductLogoMark(product: product, width: 88, height: 88, opacity: 0.92, fillsFrame: true)
                     }
                     .frame(width: 88, height: 88)
+                    .clipShape(RoundedRectangle(cornerRadius: 24, style: .continuous))
                     .overlay(RoundedRectangle(cornerRadius: 24).stroke(.white.opacity(0.12), lineWidth: 1))
                     VStack(alignment: .leading, spacing: 6) {
                         HStack(alignment: .top) {
